@@ -1,0 +1,326 @@
+{
+  "items": {
+    "canvas:announcement:16894": {
+      "due": "",
+      "hash": "179e64eb27d65da6",
+      "updated": "2026-09-09T08:39:44Z"
+    },
+    "canvas:announcement:16994": {
+      "due": "",
+      "hash": "f4a9235bdada06cf",
+      "updated": "2026-09-10T21:25:45Z"
+    },
+    "canvas:assignment:38401": {
+      "due": "2026-09-15",
+      "hash": "cc1f4bbf92fcca73",
+      "updated": "2026-09-11T12:50:39Z"
+    },
+    "canvas:assignment:38539": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:58:30Z"
+    },
+    "canvas:assignment:38543": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-07T11:31:28Z"
+    },
+    "canvas:assignment:38545": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:58:31Z"
+    },
+    "canvas:assignment:38550": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-04T06:53:17Z"
+    },
+    "canvas:assignment:38551": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:44:09Z"
+    },
+    "canvas:assignment:38554": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:44:10Z"
+    },
+    "canvas:assignment:38557": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:58:31Z"
+    },
+    "canvas:assignment:38563": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:58:32Z"
+    },
+    "canvas:assignment:38567": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-04T06:53:19Z"
+    },
+    "canvas:assignment:38570": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:44:11Z"
+    },
+    "canvas:assignment:38574": {
+      "due": "2027-04-27",
+      "hash": "c95a2b039aaf3948",
+      "updated": "2026-09-08T08:44:07Z"
+    },
+    "canvas:assignment:38577": {
+      "due": "2026-09-15",
+      "hash": "4e9d7edaf9c453ee",
+      "updated": "2026-09-11T12:50:41Z"
+    },
+    "canvas:assignment:38751": {
+      "due": "2026-10-27",
+      "hash": "2cc3ef7ecceb9f2f",
+      "updated": "2026-09-08T08:58:30Z"
+    },
+    "canvas:assignment:38754": {
+      "due": "2027-04-20",
+      "hash": "dbb84e9d565586af",
+      "updated": "2026-09-04T06:53:12Z"
+    },
+    "canvas:assignment:38757": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:44:04Z"
+    },
+    "canvas:assignment:38762": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:44:06Z"
+    },
+    "canvas:assignment:38768": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:44:06Z"
+    },
+    "canvas:assignment:38772": {
+      "due": "2026-09-15",
+      "hash": "e89a0d2311557a07",
+      "updated": "2026-09-11T12:50:41Z"
+    },
+    "canvas:assignment:38790": {
+      "due": "2027-03-09",
+      "hash": "ca66159b56618867",
+      "updated": "2026-09-07T11:31:27Z"
+    },
+    "canvas:assignment:38795": {
+      "due": "2027-04-06",
+      "hash": "c95a2b039aaf3948",
+      "updated": "2026-09-07T11:31:27Z"
+    },
+    "canvas:assignment:38801": {
+      "due": "2027-05-18",
+      "hash": "c95a2b039aaf3948",
+      "updated": "2026-09-08T08:44:08Z"
+    },
+    "canvas:assignment:38806": {
+      "due": "2027-06-01",
+      "hash": "ff68850df6b7e703",
+      "updated": "2026-09-08T08:44:08Z"
+    },
+    "canvas:assignment:53743": {
+      "due": "2027-03-09",
+      "hash": "5eb2e57495e973c1",
+      "updated": "2026-09-08T08:54:01Z"
+    },
+    "canvas:assignment:53745": {
+      "due": "2027-02-23",
+      "hash": "d6b8669fe75e7ae6",
+      "updated": "2026-09-08T08:54:02Z"
+    },
+    "canvas:assignment:53747": {
+      "due": "2026-11-17",
+      "hash": "61b115de366bedd5",
+      "updated": "2026-09-08T08:54:03Z"
+    },
+    "canvas:assignment:53749": {
+      "due": "2026-10-20",
+      "hash": "9aeedd593b110361",
+      "updated": "2026-09-08T08:57:40Z"
+    },
+    "canvas:assignment:53750": {
+      "due": "2026-10-13",
+      "hash": "ae08c77260c05f35",
+      "updated": "2026-09-08T08:57:41Z"
+    },
+    "canvas:assignment:53751": {
+      "due": "2026-10-06",
+      "hash": "bb475f1a96d80d35",
+      "updated": "2026-09-08T08:57:41Z"
+    },
+    "canvas:assignment:53752": {
+      "due": "2026-09-22",
+      "hash": "d324392c97454489",
+      "updated": "2026-09-08T08:57:42Z"
+    },
+    "canvas:assignment:53848": {
+      "due": "2026-11-24",
+      "hash": "0ed5c704bf090d34",
+      "updated": "2026-09-08T08:58:22Z"
+    },
+    "canvas:assignment:53850": {
+      "due": "2026-12-01",
+      "hash": "8ee7f26c69f6ed77",
+      "updated": "2026-09-08T08:58:23Z"
+    },
+    "canvas:assignment:53852": {
+      "due": "2026-12-08",
+      "hash": "da13357b821882b8",
+      "updated": "2026-09-08T08:58:23Z"
+    },
+    "canvas:assignment:53853": {
+      "due": "2026-12-15",
+      "hash": "6955c06c8f87fc12",
+      "updated": "2026-09-08T08:58:24Z"
+    },
+    "canvas:assignment:53856": {
+      "due": "2027-01-26",
+      "hash": "3bdede45646c1a3d",
+      "updated": "2026-09-08T08:58:24Z"
+    },
+    "canvas:assignment:53857": {
+      "due": "2027-02-02",
+      "hash": "9973544245cbb8fe",
+      "updated": "2026-09-08T08:58:25Z"
+    },
+    "canvas:assignment:53859": {
+      "due": "2027-02-09",
+      "hash": "3dd87b45462fae4a",
+      "updated": "2026-09-08T08:58:25Z"
+    },
+    "canvas:assignment:53862": {
+      "due": "2027-02-16",
+      "hash": "1e1168991ecaac89",
+      "updated": "2026-09-08T08:58:26Z"
+    },
+    "canvas:assignment:53863": {
+      "due": "2026-09-22",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:54:29Z"
+    },
+    "canvas:assignment:53865": {
+      "due": "2027-03-02",
+      "hash": "a555fb703b15ad50",
+      "updated": "2026-09-08T08:54:30Z"
+    },
+    "canvas:assignment:53866": {
+      "due": "2027-03-09",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:54:30Z"
+    },
+    "canvas:assignment:53868": {
+      "due": "2027-03-16",
+      "hash": "03ff9172dc305b75",
+      "updated": "2026-09-08T08:54:31Z"
+    },
+    "canvas:assignment:53869": {
+      "due": "2027-03-23",
+      "hash": "c8a765bc9485bd53",
+      "updated": "2026-09-08T08:54:31Z"
+    },
+    "canvas:assignment:53871": {
+      "due": "2026-09-29",
+      "hash": "a6dfe7349e163cf4",
+      "updated": "2026-09-08T08:54:31Z"
+    },
+    "canvas:assignment:53872": {
+      "due": "2026-10-06",
+      "hash": "00b32c1a1b94ff47",
+      "updated": "2026-09-08T08:54:32Z"
+    },
+    "canvas:assignment:53873": {
+      "due": "2026-10-06",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:54:32Z"
+    },
+    "canvas:assignment:53874": {
+      "due": "2026-10-13",
+      "hash": "4ce7d9f31a7b0bd7",
+      "updated": "2026-09-08T08:58:28Z"
+    },
+    "canvas:assignment:53875": {
+      "due": "2026-11-10",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:54:33Z"
+    },
+    "canvas:assignment:53876": {
+      "due": "2026-11-17",
+      "hash": "e3b0c44298fc1c14",
+      "updated": "2026-09-08T08:54:34Z"
+    },
+    "canvas:assignment:53877": {
+      "due": "2027-01-19",
+      "hash": "4024622afba738ff",
+      "updated": "2026-09-08T08:58:24Z"
+    },
+    "canvas:assignment:53878": {
+      "due": "2026-11-10",
+      "hash": "61e3cfce1d8e85c2",
+      "updated": "2026-09-08T08:58:29Z"
+    },
+    "canvas:assignment:54996": {
+      "due": "2027-01-19",
+      "hash": "29a0ba591e782ae5",
+      "updated": "2026-09-08T08:57:39Z"
+    },
+    "canvas:module:5435": {
+      "due": "",
+      "hash": "9e68d1d0b127c1f5",
+      "updated": ""
+    },
+    "canvas:module:5436": {
+      "due": "",
+      "hash": "edeff97dca0b62a9",
+      "updated": ""
+    },
+    "canvas:module:5443": {
+      "due": "",
+      "hash": "078011abf1b3eecf",
+      "updated": ""
+    },
+    "canvas:module:5445": {
+      "due": "",
+      "hash": "0a3ada679c512753",
+      "updated": ""
+    },
+    "canvas:module:5451": {
+      "due": "",
+      "hash": "7fbb59cd972efe2a",
+      "updated": ""
+    },
+    "canvas:module:5453": {
+      "due": "",
+      "hash": "65aa225145ec72a3",
+      "updated": ""
+    },
+    "canvas:module:5454": {
+      "due": "",
+      "hash": "c167aae20ae03877",
+      "updated": ""
+    },
+    "canvas:module:5462": {
+      "due": "",
+      "hash": "28b0413d3e631093",
+      "updated": ""
+    },
+    "canvas:module:7638": {
+      "due": "",
+      "hash": "e3b0c44298fc1c14",
+      "updated": ""
+    }
+  },
+  "last_sync": "2026-09-13T20:28:39+00:00",
+  "sources": {
+    "canvas:cs-hl": {
+      "count": 63,
+      "last_sync": "2026-09-13T20:28:39+00:00"
+    }
+  }
+}

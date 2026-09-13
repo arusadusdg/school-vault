@@ -17,14 +17,14 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
 
       # The path guard runs in CI too. If it ever regresses, nothing gets scraped.
-      - run: uv run scraper/test_vault.py
+      - run: uv run scraper/selfcheck.py
 
       - name: Scrape
         env:
@@ -33,7 +33,10 @@ jobs:
           CANVAS_TOKEN: ${{ secrets.CANVAS_TOKEN }}
           CANVAS_CLASS_SLUG: cs-hl
           TERM_START: "2026-08-01"
-        run: uv run scraper/sync.py
+        # stdout is the commit message; progress goes to stderr.
+        run: |
+          uv run scraper/sync.py > /tmp/commit-msg.txt
+          cat /tmp/commit-msg.txt
 
       # Only reached when the scrape succeeded, so a failed run commits nothing.
       - name: Commit
@@ -45,5 +48,5 @@ jobs:
             echo "no changes"
             exit 0
           fi
-          git commit -m "sync: $(date -u +%F)"
+          git commit -F /tmp/commit-msg.txt
           git push
