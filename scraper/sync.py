@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import sys
 
+import httpx
 from dotenv import load_dotenv
 
 import canvas
@@ -42,7 +43,16 @@ def main() -> None:
     if missing:
         sys.exit(f"missing from .env: {', '.join(missing)}")  # names only, never values
 
-    items = canvas.scrape()
+    try:
+        items = canvas.scrape()
+    except httpx.HTTPStatusError as e:
+        hint = {
+            401: "Canvas token rejected. Make a new one: Canvas -> Account -> Settings.",
+            403: "Canvas refused access. Check CANVAS_COURSE_ID and that you are enrolled.",
+            404: "No such course. Check CANVAS_COURSE_ID.",
+        }.get(e.response.status_code, "")
+        sys.exit(f"Canvas returned {e.response.status_code}. {hint}")
+
     tally = write_all(items)
     print(f"canvas: {len(items)} items — "
           f"{tally['new']} new, {tally['changed']} changed, {tally['same']} unchanged")
