@@ -1,0 +1,49 @@
+name: sync
+
+on:
+  schedule:
+    # GitHub cron is UTC only: 06:00 Berlin in summer, 05:00 in winter. Close enough.
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      # The path guard runs in CI too. If it ever regresses, nothing gets scraped.
+      - run: uv run scraper/test_vault.py
+
+      - name: Scrape
+        env:
+          CANVAS_BASE_URL: ${{ secrets.CANVAS_BASE_URL }}
+          CANVAS_COURSE_ID: ${{ secrets.CANVAS_COURSE_ID }}
+          CANVAS_TOKEN: ${{ secrets.CANVAS_TOKEN }}
+          CANVAS_CLASS_SLUG: cs-hl
+          TERM_START: "2026-08-01"
+        run: uv run scraper/sync.py
+
+      # Only reached when the scrape succeeded, so a failed run commits nothing.
+      - name: Commit
+        run: |
+          git config user.name "school-vault bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "no changes"
+            exit 0
+          fi
+          git commit -m "sync: $(date -u +%F)"
+          git push
