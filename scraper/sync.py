@@ -54,7 +54,7 @@ def main() -> None:
         sys.exit(f"Canvas returned {e.response.status_code}. {hint}")
 
     tally = write_all(items)
-    print(f"canvas: {len(items)} items — "
+    print(f"canvas: {len(items)} items - "
           f"{tally['new']} new, {tally['changed']} changed, {tally['same']} unchanged")
 
 
