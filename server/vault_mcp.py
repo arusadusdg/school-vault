@@ -241,9 +241,13 @@ def whats_due(days: int = 14) -> str:
 if __name__ == "__main__":
     import uvicorn
 
+    # Binding loopback makes FastMCP demand a loopback Host header, but the reverse
+    # proxy forwards the real one. Without this the proxied request gets a 421.
+    allowed = [h for h in os.environ.get("MCP_ALLOWED_HOSTS", "").split(",") if h.strip()]
+
     # Loopback by default: Caddy terminates TLS and does the auth in front of this.
     uvicorn.run(
-        mcp.http_app(path="/mcp"),
+        mcp.http_app(path="/mcp", allowed_hosts=allowed or None),
         host=os.environ.get("MCP_HOST", "127.0.0.1"),
         port=int(os.environ.get("MCP_PORT", "8000")),
     )
