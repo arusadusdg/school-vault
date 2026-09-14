@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 storage_state.json
 *.tmp
+toddle_secret.b64

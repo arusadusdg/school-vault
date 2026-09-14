@@ -34,7 +34,8 @@ jobs:
           CANVAS_CLASS_SLUG: cs-hl
           TERM_START: "2026-08-01"
           TODDLE_STORAGE_STATE: ${{ secrets.TODDLE_STORAGE_STATE }}
-          TODDLE_ACADEMIC_YEAR_ID: ${{ secrets.TODDLE_ACADEMIC_YEAR_ID }}
+          # School-wide and opaque, not a secret. Changes each August.
+          TODDLE_ACADEMIC_YEAR_ID: "264569948024607329"
         # stdout is the commit message; progress goes to stderr.
         run: |
           uv run scraper/sync.py > /tmp/commit-msg.txt
