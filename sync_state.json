@@ -314,13 +314,47 @@
       "due": "",
       "hash": "e3b0c44298fc1c14",
       "updated": ""
+    },
+    "toddle:announcement:424433883585446002": {
+      "due": "",
+      "hash": "bb30e0d5fa55d258",
+      "updated": "2026-09-09T13:08:59.084Z"
+    },
+    "toddle:announcement:424767607778838310": {
+      "due": "",
+      "hash": "959b3ec5d6f31fa0",
+      "updated": "2026-09-10T10:30:03.327Z"
+    },
+    "toddle:announcement:424825390641449489": {
+      "due": "",
+      "hash": "0047bc58b7d13ee3",
+      "updated": "2026-09-10T14:27:25.461Z"
+    },
+    "toddle:announcement:425107854781845523": {
+      "due": "",
+      "hash": "eb65b694428433a4",
+      "updated": "2026-09-11T09:03:28.296Z"
+    },
+    "toddle:announcement:425225020223002534": {
+      "due": "",
+      "hash": "8c94cc7fcfc079cb",
+      "updated": "2026-09-11T16:47:51.383Z"
+    },
+    "toddle:announcement:425448747737029413": {
+      "due": "",
+      "hash": "4c276402db1e1fc5",
+      "updated": "2026-09-12T07:40:53.758Z"
     }
   },
-  "last_sync": "2026-09-13T20:28:39+00:00",
+  "last_sync": "2026-09-13T21:07:34+00:00",
   "sources": {
     "canvas:cs-hl": {
       "count": 63,
-      "last_sync": "2026-09-13T20:28:39+00:00"
+      "last_sync": "2026-09-13T21:07:34+00:00"
+    },
+    "toddle": {
+      "count": 6,
+      "last_sync": "2026-09-13T21:07:34+00:00"
     }
   }
 }

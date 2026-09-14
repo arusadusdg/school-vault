@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 
 import canvas
 import report
+import toddle
 import vault
 
 META_KEYS = ("id", "source", "class", "type", "title", "author",
@@ -57,9 +58,10 @@ def main() -> None:
         sys.exit(f"missing from .env: {', '.join(missing)}")  # names only, never values
 
     state = report.load()
+    scraped: dict[str, list[dict]] = {}
 
     try:
-        items = canvas.scrape()
+        scraped[f"canvas:{os.environ.get('CANVAS_CLASS_SLUG', 'cs-hl')}"] = canvas.scrape()
     except httpx.HTTPStatusError as e:
         hint = {
             401: "Canvas token rejected. Make a new one: Canvas -> Account -> Settings.",
@@ -68,20 +70,35 @@ def main() -> None:
         }.get(e.response.status_code, "")
         sys.exit(f"Canvas returned {e.response.status_code}. {hint}")
 
-    source = f"canvas:{os.environ.get('CANVAS_CLASS_SLUG', 'cs-hl')}"
-    try:
-        report.check_count(state, source, len(items))
-    except report.CountDrop as e:
-        sys.exit(f"ABORT - {e}")
+    if toddle.configured():
+        try:
+            scraped["toddle"] = toddle.scrape()
+        except toddle.ToddleAuthError as e:
+            # A dead session must fail the run, never quietly write nothing.
+            sys.exit(f"ABORT - Toddle re-auth needed. {e}")
+    else:
+        log("toddle: no session configured, skipped")
 
-    new, edited, moved = report.diff(state, items)
-    tally = write_all(items)
+    # Every count is checked before a single note is written, so one collapsed
+    # source cannot half-overwrite the vault before the other one aborts.
+    for source, items in scraped.items():
+        try:
+            report.check_count(state, source, len(items))
+        except report.CountDrop as e:
+            sys.exit(f"ABORT - {e}")
+
+    everything = [i for items in scraped.values() for i in items]
+    new, edited, moved = report.diff(state, everything)
+    tally = write_all(everything)
     report.write_changes(new, edited, moved)
-    report.write_context(items)
-    report.save(report.update(state, source, items))
+    report.write_context(everything)
+    for source, items in scraped.items():
+        state = report.update(state, source, items)
+    report.save(state)
 
-    log(f"canvas: {len(items)} items - {tally['new']} new files, "
-        f"{tally['changed']} rewritten, {tally['same']} untouched")
+    for source, items in scraped.items():
+        log(f"{source}: {len(items)} items")
+    log(f"files: {tally['new']} new, {tally['changed']} rewritten, {tally['same']} untouched")
     print(report.commit_message(new, edited, moved))
 
 
