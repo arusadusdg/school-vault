@@ -3,19 +3,22 @@
 The repo is the state. This process holds nothing but a cache it can rebuild
 from a fresh clone in seconds, so losing the box loses nothing.
 
-Read tools only for now; remember() and sync() arrive in build step 6.
+remember() is the only thing that writes to notes/, which is exactly what the
+scraper's guard forbids. sync() reaches back to GitHub Actions.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import sqlite3
 import subprocess
 import time
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+import httpx
 import yaml
 from fastmcp import FastMCP
 
@@ -236,6 +239,125 @@ def whats_due(days: int = 14) -> str:
         f"- **{r['due']}** - {r['class']} - [{r['title']}]({r['url']}) - `{r['id']}`"
         for r in rows
     )
+
+
+def _git(*args: str) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", "-C", str(REPO), *args],
+                          capture_output=True, text=True, timeout=120, check=False)
+
+
+def _slug(text: str) -> str:
+    s = re.sub(r"[^a-z0-9]+", "-", (text or "").lower()).strip("-")
+    return s[:60].strip("-") or "note"
+
+
+@mcp.tool
+def remember(title: str, text: str) -> str:
+    """Save a note into the vault and push it to GitHub, so it survives this
+    conversation and shows up on every device.
+
+    For things worth keeping: a decision, a revision plan, a summary. Teacher
+    material is already in the vault verbatim - do not copy it in here.
+    """
+    _pull()
+    folder = (REPO / "notes").resolve()
+    folder.mkdir(parents=True, exist_ok=True)
+
+    today = date.today().isoformat()
+    stem = f"{today}-{_slug(title)}"
+    path = folder / f"{stem}.md"
+    for n in range(2, 50):
+        if not path.exists():
+            break
+        path = folder / f"{stem}-{n}.md"
+
+    # notes/ is the only place this tool may write, and nothing else writes here.
+    if path.resolve().parent != folder:
+        return "Refused: notes may only be written directly inside notes/."
+
+    doc = (
+        "---\n"
+        f"id: note:{path.stem}\n"
+        "source: note\n"
+        "type: note\n"
+        f"title: {json.dumps(title)}\n"
+        f"posted: {today}\n"
+        "---\n\n"
+        f"# {title}\n\n{text}\n"
+    )
+    path.write_text(doc, encoding="utf-8")
+
+    rel = path.relative_to(REPO).as_posix()
+    _git("add", "--", rel)
+    commit = _git("commit", "-m", f"note: {title}")
+    if commit.returncode and "nothing to commit" not in commit.stdout:
+        return f"Saved to {rel}, but the commit failed: {commit.stderr.strip()[:200]}"
+    _git("pull", "--rebase", "--autostash", "--quiet")
+    push = _git("push", "--quiet")
+    if push.returncode:
+        return (f"Saved and committed to {rel}, but the push failed: "
+                f"{push.stderr.strip()[:200]}. It will go up on the next successful push.")
+    return f"Saved to {rel} and pushed. Find it with recall(), or in Obsidian under notes/."
+
+
+@mcp.tool
+def sync(scope: str = "full", class_name: str | None = None) -> str:
+    """Scrape both portals right now instead of waiting for the 06:00 run, then
+    report what changed.
+
+    scope is one of: full, announcements, tasks, class. Use class together with
+    class_name (for example 'cs-hl') to refresh a single class.
+    """
+    token = os.environ.get("GITHUB_PAT", "").strip()
+    if not token:
+        return "No GITHUB_PAT on the server, so I cannot trigger a run. Ask for one to be added."
+    repo = os.environ.get("GITHUB_REPO", "arusadusdg/school-vault")
+    if scope not in ("full", "announcements", "tasks", "class"):
+        return f"Unknown scope {scope!r}. Use full, announcements, tasks or class."
+
+    api = f"https://api.github.com/repos/{repo}/actions/workflows/sync.yml"
+    headers = {"Authorization": f"Bearer {token}",
+               "Accept": "application/vnd.github+json",
+               "X-GitHub-Api-Version": "2022-11-28"}
+    started = datetime.now(timezone.utc).replace(microsecond=0)
+    inputs = {"scope": scope, "class": class_name or ""}
+
+    with httpx.Client(headers=headers, timeout=30.0) as c:
+        r = c.post(f"{api}/dispatches", json={"ref": "main", "inputs": inputs})
+        if r.status_code == 401:
+            return "GitHub rejected the token. It has probably expired."
+        if r.status_code != 204:
+            return f"Could not start the sync: HTTP {r.status_code} {r.text[:200]}"
+
+        # The dispatch returns no run id, so find the run it just created.
+        deadline = time.monotonic() + 150
+        run = None
+        while time.monotonic() < deadline:
+            time.sleep(5)
+            runs = c.get(f"{api}/runs", params={"per_page": 5, "event": "workflow_dispatch"})
+            for candidate in runs.json().get("workflow_runs", []):
+                created = datetime.fromisoformat(candidate["created_at"].replace("Z", "+00:00"))
+                if created >= started:
+                    run = candidate
+                    break
+            if run and run["status"] == "completed":
+                break
+            if run:
+                run = c.get(f"{api.rsplit('/workflows', 1)[0]}/runs/{run['id']}").json()
+
+    if run is None:
+        return "Started the sync, but no run appeared. Check the Actions tab."
+    if run["status"] != "completed":
+        return (f"Sync is still running ({run['html_url']}). "
+                "Give it a minute, then call whats_new().")
+    if run["conclusion"] != "success":
+        return (f"The sync FAILED ({run['conclusion']}). Nothing was committed, so the vault "
+                f"is unchanged. Logs: {run['html_url']}")
+
+    global _last_pull
+    _last_pull = 0.0  # force a pull rather than waiting out the throttle
+    _pull()
+    return "Sync finished.\n\n" + whats_new(since=date.today().isoformat())
 
 
 if __name__ == "__main__":

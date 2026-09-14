@@ -130,11 +130,14 @@ def write_context(items: list[dict], horizon_days: int = 14) -> None:
     vault.write_text("context.md", "\n".join(out) + "\n")
 
 
-def update(state: dict, source: str, items: list[dict]) -> dict:
-    state.setdefault("sources", {})[source] = {
-        "count": len(items),
-        "last_sync": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    }
+def update(state: dict, source: str, items: list[dict], track_count: bool = True) -> dict:
+    """Watermark a source. A scoped run updates hashes but not the count it
+    would otherwise poison, since it never claimed to fetch everything."""
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    entry = state.setdefault("sources", {}).setdefault(source, {})
+    entry["last_sync"] = now
+    if track_count:
+        entry["count"] = len(items)
     state.setdefault("items", {})
     for i in items:
         state["items"][i["id"]] = {
@@ -142,7 +145,7 @@ def update(state: dict, source: str, items: list[dict]) -> dict:
             "due": i.get("due") or "",
             "updated": i.get("updated") or "",
         }
-    state["last_sync"] = state["sources"][source]["last_sync"]
+    state["last_sync"] = now
     return state
 
 

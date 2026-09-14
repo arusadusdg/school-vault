@@ -5,6 +5,16 @@ on:
     # GitHub cron is UTC only: 06:00 Berlin in summer, 05:00 in winter. Close enough.
     - cron: "0 4 * * *"
   workflow_dispatch:
+    inputs:
+      scope:
+        description: What to sync
+        type: choice
+        options: [full, announcements, tasks, class]
+        default: full
+      class:
+        description: Class slug, only used when scope is "class"
+        type: string
+        required: false
 
 permissions:
   contents: write
@@ -33,6 +43,8 @@ jobs:
           CANVAS_TOKEN: ${{ secrets.CANVAS_TOKEN }}
           CANVAS_CLASS_SLUG: cs-hl
           TERM_START: "2026-08-01"
+          SYNC_SCOPE: ${{ inputs.scope || 'full' }}
+          SYNC_CLASS: ${{ inputs.class }}
           TODDLE_STORAGE_STATE: ${{ secrets.TODDLE_STORAGE_STATE }}
           # School-wide and opaque, not a secret. Changes each August.
           TODDLE_ACADEMIC_YEAR_ID: "264569948024607329"

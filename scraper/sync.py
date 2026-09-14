@@ -8,6 +8,7 @@ workflow can pipe it straight into `git commit`.
 
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 
@@ -23,6 +24,9 @@ META_KEYS = ("id", "source", "class", "type", "title", "author",
              "posted", "due", "updated", "url", "attachments")
 
 REQUIRED = ("CANVAS_BASE_URL", "CANVAS_COURSE_ID", "CANVAS_TOKEN")
+
+# scope -> the item types it keeps. "full" and "class" are handled separately.
+SCOPES = {"announcements": {"announcement"}, "tasks": {"assignment", "task"}}
 
 # Teacher titles contain emoji; a Windows console defaults to cp1252 and would die on them.
 for _stream in (sys.stdout, sys.stderr):
@@ -51,8 +55,30 @@ def write_all(items: list[dict]) -> dict[str, int]:
     return tally
 
 
+def select(items: list[dict], scope: str, class_name: str) -> list[dict]:
+    """Narrow a full scrape down to the requested scope.
+
+    Both portals answer in a handful of requests, so scoping filters the result
+    rather than skipping calls. Same outcome, none of the partial-state risk.
+    """
+    if scope == "class":
+        if not class_name:
+            sys.exit("scope=class needs --class")
+        return [i for i in items if i["class"] == class_name]
+    types = SCOPES.get(scope)
+    if types is None:
+        return items
+    return [i for i in items if i["type"] in types]
+
+
 def main() -> None:
     load_dotenv()
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--scope", default=os.environ.get("SYNC_SCOPE") or "full",
+                    choices=["full", "announcements", "tasks", "class"])
+    ap.add_argument("--class", dest="class_name", default=os.environ.get("SYNC_CLASS", ""))
+    args = ap.parse_args()
+
     missing = [k for k in REQUIRED if not os.environ.get(k)]
     if missing:
         sys.exit(f"missing from .env: {', '.join(missing)}")  # names only, never values
@@ -79,25 +105,31 @@ def main() -> None:
     else:
         log("toddle: no session configured, skipped")
 
+    scraped = {s: select(items, args.scope, args.class_name) for s, items in scraped.items()}
+    full = args.scope == "full"
+
     # Every count is checked before a single note is written, so one collapsed
-    # source cannot half-overwrite the vault before the other one aborts.
-    for source, items in scraped.items():
-        try:
-            report.check_count(state, source, len(items))
-        except report.CountDrop as e:
-            sys.exit(f"ABORT - {e}")
+    # source cannot half-overwrite the vault before the other one aborts. A
+    # scoped run holds fewer items by design, so it is not comparable.
+    if full:
+        for source, items in scraped.items():
+            try:
+                report.check_count(state, source, len(items))
+            except report.CountDrop as e:
+                sys.exit(f"ABORT - {e}")
 
     everything = [i for items in scraped.values() for i in items]
     new, edited, moved = report.diff(state, everything)
     tally = write_all(everything)
     report.write_changes(new, edited, moved)
-    report.write_context(everything)
+    if full:
+        report.write_context(everything)
     for source, items in scraped.items():
-        state = report.update(state, source, items)
+        state = report.update(state, source, items, track_count=full)
     report.save(state)
 
     for source, items in scraped.items():
-        log(f"{source}: {len(items)} items")
+        log(f"{source}: {len(items)} items ({args.scope})")
     log(f"files: {tally['new']} new, {tally['changed']} rewritten, {tally['same']} untouched")
     print(report.commit_message(new, edited, moved))
 

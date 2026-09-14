@@ -61,6 +61,21 @@ def check_count_drop() -> None:
         raise AssertionError(f"count guard allowed a drop to {collapsed} from 100")
 
 
+def check_scoped_watermark() -> None:
+    """A scoped run must not overwrite the count the drop-guard compares against."""
+    item = {"id": "x:1", "class": "c", "type": "announcement", "title": "T", "body": "b"}
+    state = report.update({}, "src", [item] * 50)
+    assert state["sources"]["src"]["count"] == 50
+    report.update(state, "src", [item], track_count=False)
+    assert state["sources"]["src"]["count"] == 50, "a scoped run poisoned the watermark"
+    report.check_count(state, "src", 50)
+    try:
+        report.check_count(state, "src", 3)
+    except report.CountDrop:
+        return
+    raise AssertionError("count guard stopped working after a scoped run")
+
+
 def check_diff_and_changes() -> None:
     item = {"id": "canvas:assignment:9", "class": "cs-hl", "type": "assignment",
             "title": "Lab report", "body": "do the lab", "due": "2026-09-20", "url": "u"}
@@ -108,9 +123,10 @@ def main() -> None:
         check_guard()
         check_verbatim()
         check_count_drop()
+        check_scoped_watermark()
         check_diff_and_changes()
         check_context()
-    print("guard + verbatim + count-drop + changes + context: ok")
+    print("guard + verbatim + count-drop + watermark + changes + context: ok")
 
 
 if __name__ == "__main__":
