@@ -10,6 +10,11 @@
       "hash": "f4a9235bdada06cf",
       "updated": "2026-09-10T21:25:45Z"
     },
+    "canvas:announcement:17190": {
+      "due": "",
+      "hash": "bde9e30a5a6c50c0",
+      "updated": "2026-09-15T22:52:59Z"
+    },
     "canvas:assignment:38401": {
       "due": "2026-09-15",
       "hash": "cc1f4bbf92fcca73",
@@ -344,17 +349,42 @@
       "due": "",
       "hash": "4c276402db1e1fc5",
       "updated": "2026-09-12T07:40:53.758Z"
+    },
+    "toddle:announcement:426246627263521432": {
+      "due": "",
+      "hash": "5025869d580b2f86",
+      "updated": "2026-09-14T12:27:39.840Z"
+    },
+    "toddle:announcement:426260163616318301": {
+      "due": "",
+      "hash": "3f069280dd34a509",
+      "updated": "2026-09-14T13:31:27.103Z"
+    },
+    "toddle:announcement:426571691762657911": {
+      "due": "",
+      "hash": "0e5d50301e056990",
+      "updated": "2026-09-15T09:56:35.597Z"
+    },
+    "toddle:announcement:426596038460058464": {
+      "due": "",
+      "hash": "2a6ddac0b49e38a3",
+      "updated": "2026-09-15T11:36:02.771Z"
+    },
+    "toddle:announcement:426662935490735853": {
+      "due": "",
+      "hash": "dbeee2b433c70956",
+      "updated": "2026-09-15T15:59:02.473Z"
     }
   },
-  "last_sync": "2026-09-14T07:13:11+00:00",
+  "last_sync": "2026-09-16T09:05:02+00:00",
   "sources": {
     "canvas:cs-hl": {
-      "count": 63,
-      "last_sync": "2026-09-14T07:13:11+00:00"
+      "count": 64,
+      "last_sync": "2026-09-16T09:05:02+00:00"
     },
     "toddle": {
-      "count": 6,
-      "last_sync": "2026-09-14T07:13:11+00:00"
+      "count": 11,
+      "last_sync": "2026-09-16T09:05:02+00:00"
     }
   }
 }
