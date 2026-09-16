@@ -1,0 +1,21 @@
+name: Check Toddle Introspection
+on: workflow_dispatch
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Run check
+        working-directory: scraper
+        env:
+          TODDLE_STORAGE_STATE: ${{ secrets.TODDLE_STORAGE_STATE }}
+        run: |
+          uv run python -c "
+          from toddle import client, API
+          with client() as c:
+              r = c.post(API, json={'query': '{ __schema { queryType { fields { name } } } }'})
+              print(r.status_code)
+              print(r.text[:3000])
+          "
