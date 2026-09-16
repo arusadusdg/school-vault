@@ -238,9 +238,12 @@ def scrape() -> list[dict]:
         tasks = gql(c, "getStudentTasks", task_vars, "tasks")
         for edge in (tasks.get("node", {}).get("tasks", {}).get("edges") or []):
             n = edge.get("node") or {}
+            task_id = n.get("id")
+            if not task_id:
+                continue
             course = (n.get("course") or {}).get("id")
             items.append({
-                "id": f"toddle:task:{n['id']}",
+                "id": f"toddle:task:{task_id}",
                 "class": slugs.get(course, "unknown-class"),
                 "dir": "tasks",
                 "type": "task",
