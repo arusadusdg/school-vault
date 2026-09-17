@@ -1,7 +1,7 @@
 # Context
 
-_Last sync: 2026-09-16 09:05 UTC._
-_75 items across 2 class(es)._
+_Last sync: 2026-09-17 09:13 UTC._
+_77 items across 2 class(es)._
 
 ## Due in the next 14 days
 
@@ -15,5 +15,5 @@ _75 items across 2 class(es)._
 **Week 2 Announcement** — Anna Dabska, 2026-09-15 — [open](https://pamojaeducation.instructure.com/courses/734/discussion_topics/17190)
 
 ### school
-**A digital exhibition of work created in July 2026_Ms Stricker's classes** — Roslyn Stricker, 2026-09-15 — [open](https://web.toddleapp.com/)
+**Terranova School Presentation** — Ama-Sita Ristau, 2026-09-16 — [open](https://web.toddleapp.com/)
 
