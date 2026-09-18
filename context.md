@@ -1,7 +1,7 @@
 # Context
 
-_Last sync: 2026-09-17 09:13 UTC._
-_77 items across 2 class(es)._
+_Last sync: 2026-09-18 08:46 UTC._
+_82 items across 2 class(es)._
 
 ## Due in the next 14 days
 
@@ -12,8 +12,8 @@ _77 items across 2 class(es)._
 ## Latest announcement per class
 
 ### cs-hl
-**Week 2 Announcement** — Anna Dabska, 2026-09-15 — [open](https://pamojaeducation.instructure.com/courses/734/discussion_topics/17190)
+** First Online Lesson Event (OLE) ** — Rajesh Jha (Course Advisor), 2026-09-17 — [open](https://pamojaeducation.instructure.com/courses/734/discussion_topics/17300)
 
 ### school
-**Terranova School Presentation** — Ama-Sita Ristau, 2026-09-16 — [open](https://web.toddleapp.com/)
+**Environmental and Climate Workshop – Thursday, 24 September** — Anita Meraviglia, 2026-09-18 — [open](https://web.toddleapp.com/)
 
